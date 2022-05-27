@@ -25,6 +25,7 @@ def easySolves(grid):
                 grid[i,j] = checkCol(grid, i,j)[0]
             if (grid[i,j] == "." and len(checkSquare(grid, i,j)) == 1):
                 grid[i,j] = checkSquare(grid, i,j)[0]
+    grid = getNakedPairs(grid)
     return grid
            
 def checkRow(grid,x,y):
@@ -84,6 +85,25 @@ def countEmptySquares(grid):
                 count = count+1
     return count
 
+def getNakedPairs(grid):
+    #sudoku has a naked pair rule, i.e
+    for i in range (16):
+        for j in range (16):
+                if(grid[i,j] == "."):
+                        a = checkRow(grid,i,j)
+                        b = checkCol(grid,i,j)
+                        c = checkSquare(grid,i,j)
+                        options = [x for x in a if x in b and x in c]
+                        if (j==15):
+                                print("row,col,square and total options")
+                                print(a)
+                                print(b)
+                                print(c)
+                                print(options)
+                        if (len(options) == 1):
+                                grid[i,j] = options[0]
+    return grid
+        
 def main():
     sudokuGrid = getSudoku()
     printSudoku(sudokuGrid)
@@ -96,5 +116,8 @@ def main():
         emptyCount.append(countEmptySquares(sudokuGrid))
     printSudoku(sudokuGrid)
     print(countEmptySquares(sudokuGrid))
+    #set a temporary grid, for search with heuristics
+    tempGrid = sudokuGrid
+    
     
 main()
