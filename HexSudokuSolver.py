@@ -98,27 +98,10 @@ def printSudoku(grid):
         s+='\n'
     print(s)
 
-def solveEasy(grid):
-    #method to solve all initial solvable squares
-    #input all values with only one option
-    for i in range (16):
-        for j in range(16):
-            count = 0
-            tempVal = "."
-            for k in range(16):
-            #check if only one value possible
-                if isValid(grid, sudokuValues[k], i, j):
-                    count = count + 1
-                    tempVal = sudokuValues[k]
-            if count == 1:
-                grid[i,j] = tempVal
-    return grid 
-
 def main(file):
     sudokuGrid = getSudoku(file)
     printSudoku(sudokuGrid)
     start = time.time()
-    #solveEasy(sudokuGrid)
     solve(sudokuGrid)
     printSudoku(sudokuGrid)        
     total = time.time()-start
