@@ -70,6 +70,7 @@ def getNext(grid):
     #sort both arrays with lowest number of options first
     numOptions, emptySquares = zip(*sorted(zip(numOptions, emptySquares)))
     #return coordinates
+    #print("x,y is: ", emptySquares[0], " num options is: ", numOptions[0])
     return emptySquares[0]
 
 def solve(grid):
@@ -78,6 +79,7 @@ def solve(grid):
         return True
     #get coordinates of next square
     x,y = getNext(grid)
+    
     #try all possible values until sudoku complete 
     for i in range(16):
         if (isValid(grid, sudokuValues[i], x, y)):
@@ -86,6 +88,7 @@ def solve(grid):
             if solve(grid):     
                 return True
             #backtrack if wrong
+            #print(" BACKTRACKING")
             grid[x,y] = "."
 
     return False
@@ -93,9 +96,17 @@ def solve(grid):
 def printSudoku(grid):
     s=""
     for i in range (16):
+        s+="\t\t\t"    
         for j in range (16):
+            if (j%4 == 0 and j!=0):
+                s+="|"
             s+=grid[i,j]+" "
-        s+='\n'
+        if ((i+1)%4 == 0 and i!=0 and i+1!=16):
+                s+="\n"
+                s+="\t\t\t"+"-"*8+"|"+"-"*8+"|"+"-"*8+"|"+"-"*7
+                s+="\n"
+        else:
+                s+='\n'
     print(s)
 
 def main(file):
@@ -103,11 +114,17 @@ def main(file):
     printSudoku(sudokuGrid)
     start = time.time()
     solve(sudokuGrid)
+    print("-"*80)
+    print()
     printSudoku(sudokuGrid)        
     total = time.time()-start
     print("time taken: ", total)
+    print()
+    print("-"*80)
     print()
 
 main("sudoku.txt")
 main("sudoku2.txt")
 main("sudoku3.txt")
+main("sudoku4.txt")
+main("sudoku5.txt")
